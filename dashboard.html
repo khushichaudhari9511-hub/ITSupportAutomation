@@ -1,0 +1,1960 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>IT Support Automation Dashboard</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #1f2937;
+        }
+
+        /* ================= HEADER ================= */
+
+        .header {
+            background: #111827;
+            color: white;
+            padding: 22px 35px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 26px;
+        }
+
+        .header p {
+            margin: 6px 0 0;
+            color: #cbd5e1;
+        }
+
+        /* ================= CONTAINER ================= */
+
+        .container {
+            padding: 30px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        /* ================= KPI CARDS ================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .card h3 {
+            margin: 0 0 10px;
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .number {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        /* ================= GENERAL BOX ================= */
+
+        .ticket-box {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+        }
+
+        /* ================= TEXTAREA ================= */
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            resize: vertical;
+            font-size: 15px;
+        }
+
+        /* ================= BUTTONS ================= */
+
+        button {
+            margin-top: 12px;
+            padding: 12px 22px;
+            border: none;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        button:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        /* ================= RESULT ================= */
+
+        .result {
+            margin-top: 20px;
+            padding: 18px;
+            background: #f8fafc;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .result-item {
+            padding: 12px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* ================= AI SOLUTION ================= */
+
+        .ai-solution {
+            margin-top: 25px;
+            padding: 20px;
+            background: #eff6ff;
+            border-left: 5px solid #2563eb;
+            border-radius: 8px;
+        }
+
+        .ai-solution h3 {
+            margin-top: 0;
+            color: #1e40af;
+        }
+
+        .solution-text {
+            background: white;
+            padding: 18px;
+            border-radius: 8px;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            border: 1px solid #dbeafe;
+        }
+
+        .solution-loading {
+            color: #64748b;
+            font-style: italic;
+        }
+
+        /* ================= ACTION BUTTONS ================= */
+
+        .action-buttons {
+            margin-top: 18px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .success-button {
+            background: #16a34a;
+        }
+
+        .success-button:hover {
+            background: #15803d;
+        }
+
+        .escalate-button {
+            background: #dc2626;
+        }
+
+        .escalate-button:hover {
+            background: #b91c1c;
+        }
+
+        .action-message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            display: none;
+            font-weight: bold;
+        }
+
+        .success-message {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .escalation-message {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* ================= ANALYTICS ================= */
+
+        .analytics-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .analytics-title h2 {
+            margin: 0;
+        }
+
+        .analytics-subtitle {
+            color: #64748b;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .analytics-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 18px;
+        }
+
+        .analytics-card h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #334155;
+        }
+
+        .analytics-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .analytics-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            background: white;
+            border-radius: 7px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .analytics-label {
+            font-weight: 600;
+        }
+
+        .analytics-value {
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .analytics-empty {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .refresh-button {
+            background: #475569;
+            margin-top: 0;
+            padding: 9px 15px;
+            font-size: 13px;
+        }
+
+        .refresh-button:hover {
+            background: #334155;
+        }
+
+        /* ================= TABLE ================= */
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            background: #f8fafc;
+        }
+
+        /* ================= PRIORITY ================= */
+
+        .priority-critical {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .priority-high {
+            color: #ea580c;
+            font-weight: bold;
+        }
+
+        .priority-medium {
+            color: #ca8a04;
+            font-weight: bold;
+        }
+
+        .priority-low {
+            color: #16a34a;
+            font-weight: bold;
+        }
+
+        /* ================= STATUS ================= */
+
+        .status-open {
+            color: #2563eb;
+            font-weight: bold;
+        }
+
+        .status-progress {
+            color: #ea580c;
+            font-weight: bold;
+        }
+
+        .status-resolved {
+            color: #16a34a;
+            font-weight: bold;
+        }
+
+        .status-closed {
+            color: #64748b;
+            font-weight: bold;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1000px) {
+
+            .stats {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .analytics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 800px) {
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 550px) {
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .analytics-title {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= HEADER ================= -->
+
+<div class="header">
+
+    <h1>
+        IT Support Automation Dashboard
+    </h1>
+
+    <p>
+        AI-powered IT ticket management & analytics
+    </p>
+
+</div>
+
+
+<div class="container">
+
+
+<!-- ================= KPI SECTION ================= -->
+
+<div class="stats">
+
+
+    <div class="card">
+
+        <h3>Total Tickets</h3>
+
+        <div
+            class="number"
+            id="totalTickets"
+        >
+            0
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>Open Tickets</h3>
+
+        <div
+            class="number"
+            id="openTickets"
+        >
+            0
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>In Progress</h3>
+
+        <div
+            class="number"
+            id="inProgressTickets"
+        >
+            0
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>Resolved</h3>
+
+        <div
+            class="number"
+            id="resolvedTickets"
+        >
+            0
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>High / Critical</h3>
+
+        <div
+            class="number"
+            id="highTickets"
+        >
+            0
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>Escalated</h3>
+
+        <div
+            class="number"
+            id="escalatedTickets"
+        >
+            0
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<!-- ================= CREATE TICKET ================= -->
+
+<div class="ticket-box">
+
+    <h2>
+        Create IT Support Ticket
+    </h2>
+
+    <p>
+        Describe the user's IT issue below.
+    </p>
+
+
+    <textarea
+        id="issue"
+        placeholder="Example: My laptop is not connecting to Wi-Fi and I cannot work."
+    ></textarea>
+
+
+    <br>
+
+
+    <button
+        id="createButton"
+        onclick="createTicket()"
+    >
+        Analyze & Create Ticket
+    </button>
+
+
+    <!-- ================= RESULT ================= -->
+
+    <div
+        class="result"
+        id="result"
+    >
+
+        <h3>
+            AI / Automation Result
+        </h3>
+
+
+        <div class="result-grid">
+
+
+            <div class="result-item">
+
+                <strong>Ticket ID</strong>
+
+                <div id="ticketId"></div>
+
+            </div>
+
+
+            <div class="result-item">
+
+                <strong>Category</strong>
+
+                <div id="category"></div>
+
+            </div>
+
+
+            <div class="result-item">
+
+                <strong>Priority</strong>
+
+                <div id="priority"></div>
+
+            </div>
+
+
+            <div class="result-item">
+
+                <strong>Recommended Team</strong>
+
+                <div id="team"></div>
+
+            </div>
+
+
+            <div class="result-item">
+
+                <strong>Human Escalation</strong>
+
+                <div id="escalation"></div>
+
+            </div>
+
+
+            <div class="result-item">
+
+                <strong>Next Action</strong>
+
+                <div id="nextAction"></div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- ================= AI SOLUTION ================= -->
+
+        <div class="ai-solution">
+
+            <h3>
+                🤖 AI Recommended Solution
+            </h3>
+
+
+            <p>
+                Follow these troubleshooting steps before requesting human support.
+            </p>
+
+
+            <div
+                id="solutionText"
+                class="solution-text solution-loading"
+            >
+                🤖 AI is analyzing the issue and generating troubleshooting steps...
+            </div>
+
+
+            <div class="action-buttons">
+
+
+                <button
+                    id="solvedButton"
+                    class="success-button"
+                    onclick="markSolved()"
+                >
+                    ✅ Problem Solved
+                </button>
+
+
+                <button
+                    id="escalateButton"
+                    class="escalate-button"
+                    onclick="escalateTicket()"
+                >
+                    ❌ Still Not Solved → Human Support
+                </button>
+
+
+            </div>
+
+
+            <div
+                id="successMessage"
+                class="action-message success-message"
+            >
+                ✅ Problem solved. Ticket has been marked as Resolved.
+            </div>
+
+
+            <div
+                id="escalationMessage"
+                class="action-message escalation-message"
+            >
+                🔴 The AI solution did not resolve the issue. Ticket has been sent to human IT support.
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+<!-- ================= BA ANALYTICS ================= -->
+
+<div class="ticket-box">
+
+
+    <div class="analytics-title">
+
+
+        <div>
+
+            <h2>
+                📊 BA Analytics & Insights
+            </h2>
+
+            <div class="analytics-subtitle">
+                Ticket volume, priorities, categories and support workload
+            </div>
+
+        </div>
+
+
+        <button
+            class="refresh-button"
+            onclick="loadAnalytics()"
+        >
+            🔄 Refresh Analytics
+        </button>
+
+
+    </div>
+
+
+    <div class="analytics-grid">
+
+
+        <!-- CATEGORY -->
+
+        <div class="analytics-card">
+
+            <h3>
+                📂 Tickets by Category
+            </h3>
+
+            <div
+                id="categoryAnalytics"
+                class="analytics-list"
+            >
+
+                <div class="analytics-empty">
+                    Loading analytics...
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PRIORITY -->
+
+        <div class="analytics-card">
+
+            <h3>
+                ⚡ Tickets by Priority
+            </h3>
+
+            <div
+                id="priorityAnalytics"
+                class="analytics-list"
+            >
+
+                <div class="analytics-empty">
+                    Loading analytics...
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- TEAM -->
+
+        <div class="analytics-card">
+
+            <h3>
+                👥 Team Workload
+            </h3>
+
+            <div
+                id="teamAnalytics"
+                class="analytics-list"
+            >
+
+                <div class="analytics-empty">
+                    Loading analytics...
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+<!-- ================= RECENT TICKETS ================= -->
+
+<div class="ticket-box">
+
+
+    <h2>
+        Recent Tickets
+    </h2>
+
+
+    <table>
+
+
+        <thead>
+
+            <tr>
+
+                <th>Ticket ID</th>
+
+                <th>Issue</th>
+
+                <th>Category</th>
+
+                <th>Priority</th>
+
+                <th>Team</th>
+
+                <th>Status</th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody id="ticketTable"></tbody>
+
+
+    </table>
+
+
+</div>
+
+
+</div>
+
+
+<script>
+
+
+/* =========================================================
+   CURRENT ACTIVE TICKET
+========================================================= */
+
+let currentTicketId = null;
+
+
+/* =========================================================
+   LOAD TICKETS
+========================================================= */
+
+async function loadTickets() {
+
+    try {
+
+        const response = await fetch("/tickets");
+
+        const data = await response.json();
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail || "Could not load tickets."
+            );
+
+        }
+
+
+        const tickets = data.tickets || [];
+
+
+        /* TOTAL */
+
+        document.getElementById(
+            "totalTickets"
+        ).innerText = tickets.length;
+
+
+        /* OPEN */
+
+        document.getElementById(
+            "openTickets"
+        ).innerText =
+            tickets.filter(
+                ticket => ticket.status === "Open"
+            ).length;
+
+
+        /* IN PROGRESS */
+
+        document.getElementById(
+            "inProgressTickets"
+        ).innerText =
+            tickets.filter(
+                ticket => ticket.status === "In Progress"
+            ).length;
+
+
+        /* RESOLVED */
+
+        document.getElementById(
+            "resolvedTickets"
+        ).innerText =
+            tickets.filter(
+                ticket => ticket.status === "Resolved"
+            ).length;
+
+
+        /* HIGH / CRITICAL */
+
+        document.getElementById(
+            "highTickets"
+        ).innerText =
+            tickets.filter(
+                ticket =>
+                    ticket.priority === "High" ||
+                    ticket.priority === "Critical"
+            ).length;
+
+
+        /* ESCALATED */
+
+        document.getElementById(
+            "escalatedTickets"
+        ).innerText =
+            tickets.filter(
+                ticket =>
+                    Boolean(ticket.human_escalation) ||
+                    ticket.human_escalation === 1 ||
+                    ticket.status === "In Progress"
+            ).length;
+
+
+        /* TABLE */
+
+        const table =
+            document.getElementById(
+                "ticketTable"
+            );
+
+
+        table.innerHTML = "";
+
+
+        if (tickets.length === 0) {
+
+            table.innerHTML = `
+                <tr>
+                    <td colspan="6">
+                        No tickets created yet.
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+
+        tickets.forEach(ticket => {
+
+
+            const row =
+                document.createElement("tr");
+
+
+            let priorityClass = "";
+
+
+            if (
+                ticket.priority === "Critical"
+            ) {
+
+                priorityClass =
+                    "priority-critical";
+
+            }
+
+            else if (
+                ticket.priority === "High"
+            ) {
+
+                priorityClass =
+                    "priority-high";
+
+            }
+
+            else if (
+                ticket.priority === "Medium"
+            ) {
+
+                priorityClass =
+                    "priority-medium";
+
+            }
+
+            else {
+
+                priorityClass =
+                    "priority-low";
+
+            }
+
+
+            let statusClass = "";
+
+
+            if (
+                ticket.status === "Open"
+            ) {
+
+                statusClass =
+                    "status-open";
+
+            }
+
+            else if (
+                ticket.status === "In Progress"
+            ) {
+
+                statusClass =
+                    "status-progress";
+
+            }
+
+            else if (
+                ticket.status === "Resolved"
+            ) {
+
+                statusClass =
+                    "status-resolved";
+
+            }
+
+            else if (
+                ticket.status === "Closed"
+            ) {
+
+                statusClass =
+                    "status-closed";
+
+            }
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${escapeHtml(ticket.ticket_id)}
+                </td>
+
+                <td>
+                    ${escapeHtml(ticket.issue)}
+                </td>
+
+                <td>
+                    ${escapeHtml(ticket.category)}
+                </td>
+
+                <td class="${priorityClass}">
+                    ${escapeHtml(ticket.priority)}
+                </td>
+
+                <td>
+                    ${escapeHtml(ticket.recommended_team)}
+                </td>
+
+                <td class="${statusClass}">
+                    ${escapeHtml(ticket.status)}
+                </td>
+
+            `;
+
+
+            table.appendChild(row);
+
+        });
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Could not load tickets:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   LOAD ANALYTICS
+========================================================= */
+
+async function loadAnalytics() {
+
+    try {
+
+        const response =
+            await fetch("/analytics");
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "Analytics could not be loaded."
+            );
+
+        }
+
+
+        /* SUMMARY */
+
+        const summary =
+            data.summary || {};
+
+
+        document.getElementById(
+            "totalTickets"
+        ).innerText =
+            summary.total_tickets ?? 0;
+
+
+        document.getElementById(
+            "openTickets"
+        ).innerText =
+            summary.open_tickets ?? 0;
+
+
+        document.getElementById(
+            "inProgressTickets"
+        ).innerText =
+            summary.in_progress_tickets ?? 0;
+
+
+        document.getElementById(
+            "resolvedTickets"
+        ).innerText =
+            summary.resolved_tickets ?? 0;
+
+
+        document.getElementById(
+            "highTickets"
+        ).innerText =
+            summary.high_critical_tickets ?? 0;
+
+
+        document.getElementById(
+            "escalatedTickets"
+        ).innerText =
+            summary.escalated_tickets ?? 0;
+
+
+        /* CATEGORY */
+
+        const categoryContainer =
+            document.getElementById(
+                "categoryAnalytics"
+            );
+
+
+        categoryContainer.innerHTML = "";
+
+
+        const categories =
+            data.category_breakdown || [];
+
+
+        if (categories.length === 0) {
+
+            categoryContainer.innerHTML = `
+                <div class="analytics-empty">
+                    No category data available.
+                </div>
+            `;
+
+        }
+
+        else {
+
+            categories.forEach(item => {
+
+                categoryContainer.innerHTML += `
+
+                    <div class="analytics-row">
+
+                        <span class="analytics-label">
+                            ${escapeHtml(item.category)}
+                        </span>
+
+                        <span class="analytics-value">
+                            ${item.count}
+                        </span>
+
+                    </div>
+
+                `;
+
+            });
+
+        }
+
+
+        /* PRIORITY */
+
+        const priorityContainer =
+            document.getElementById(
+                "priorityAnalytics"
+            );
+
+
+        priorityContainer.innerHTML = "";
+
+
+        const priorities =
+            data.priority_breakdown || [];
+
+
+        if (priorities.length === 0) {
+
+            priorityContainer.innerHTML = `
+                <div class="analytics-empty">
+                    No priority data available.
+                </div>
+            `;
+
+        }
+
+        else {
+
+            priorities.forEach(item => {
+
+
+                let priorityClass = "";
+
+
+                if (
+                    item.priority === "Critical"
+                ) {
+
+                    priorityClass =
+                        "priority-critical";
+
+                }
+
+                else if (
+                    item.priority === "High"
+                ) {
+
+                    priorityClass =
+                        "priority-high";
+
+                }
+
+                else if (
+                    item.priority === "Medium"
+                ) {
+
+                    priorityClass =
+                        "priority-medium";
+
+                }
+
+                else {
+
+                    priorityClass =
+                        "priority-low";
+
+                }
+
+
+                priorityContainer.innerHTML += `
+
+                    <div class="analytics-row">
+
+                        <span
+                            class="analytics-label ${priorityClass}"
+                        >
+                            ${escapeHtml(item.priority)}
+                        </span>
+
+                        <span class="analytics-value">
+                            ${item.count}
+                        </span>
+
+                    </div>
+
+                `;
+
+            });
+
+        }
+
+
+        /* TEAM */
+
+        const teamContainer =
+            document.getElementById(
+                "teamAnalytics"
+            );
+
+
+        teamContainer.innerHTML = "";
+
+
+        const teams =
+            data.team_workload || [];
+
+
+        if (teams.length === 0) {
+
+            teamContainer.innerHTML = `
+                <div class="analytics-empty">
+                    No team workload data available.
+                </div>
+            `;
+
+        }
+
+        else {
+
+            teams.forEach(item => {
+
+                teamContainer.innerHTML += `
+
+                    <div class="analytics-row">
+
+                        <span class="analytics-label">
+                            ${escapeHtml(item.recommended_team)}
+                        </span>
+
+                        <span class="analytics-value">
+                            ${item.count}
+                        </span>
+
+                    </div>
+
+                `;
+
+            });
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Analytics error:",
+            error
+        );
+
+
+        document.getElementById(
+            "categoryAnalytics"
+        ).innerHTML = `
+            <div class="analytics-empty">
+                ⚠️ Analytics unavailable.
+            </div>
+        `;
+
+
+        document.getElementById(
+            "priorityAnalytics"
+        ).innerHTML = `
+            <div class="analytics-empty">
+                ⚠️ Analytics unavailable.
+            </div>
+        `;
+
+
+        document.getElementById(
+            "teamAnalytics"
+        ).innerHTML = `
+            <div class="analytics-empty">
+                ⚠️ Analytics unavailable.
+            </div>
+        `;
+
+    }
+
+}
+
+
+/* =========================================================
+   CREATE TICKET
+========================================================= */
+
+async function createTicket() {
+
+
+    const issue =
+        document
+            .getElementById("issue")
+            .value
+            .trim();
+
+
+    if (!issue) {
+
+        alert(
+            "Please enter an IT issue."
+        );
+
+        return;
+
+    }
+
+
+    const button =
+        document.getElementById(
+            "createButton"
+        );
+
+
+    button.disabled = true;
+
+    button.innerText =
+        "Analyzing & Creating Ticket...";
+
+
+    try {
+
+
+        /* =========================================
+           STEP 1: CREATE TICKET
+        ========================================= */
+
+        const response =
+            await fetch(
+                "/tickets",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        issue: issue
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "Failed to create ticket."
+            );
+
+        }
+
+
+        /* SAVE CURRENT TICKET */
+
+        currentTicketId =
+            data.ticket_id;
+
+
+        /* SHOW RESULT */
+
+        document.getElementById(
+            "result"
+        ).style.display = "block";
+
+
+        document.getElementById(
+            "ticketId"
+        ).innerText =
+            data.ticket_id;
+
+
+        document.getElementById(
+            "category"
+        ).innerText =
+            data.category;
+
+
+        document.getElementById(
+            "priority"
+        ).innerText =
+            data.priority;
+
+
+        document.getElementById(
+            "team"
+        ).innerText =
+            data.recommended_team;
+
+
+        document.getElementById(
+            "escalation"
+        ).innerText =
+            data.human_escalation
+                ? "YES"
+                : "NO";
+
+
+        document.getElementById(
+            "nextAction"
+        ).innerText =
+            data.next_action;
+
+
+        /* RESET AI SOLUTION */
+
+        const solutionText =
+            document.getElementById(
+                "solutionText"
+            );
+
+
+        solutionText.classList.add(
+            "solution-loading"
+        );
+
+
+        solutionText.innerText =
+            "🤖 AI is analyzing the issue and generating troubleshooting steps...";
+
+
+        document.getElementById(
+            "successMessage"
+        ).style.display = "none";
+
+
+        document.getElementById(
+            "escalationMessage"
+        ).style.display = "none";
+
+
+        document.getElementById(
+            "solvedButton"
+        ).disabled = false;
+
+
+        document.getElementById(
+            "escalateButton"
+        ).disabled = false;
+
+
+        /* =========================================
+           STEP 2: ASK GEMINI
+        ========================================= */
+
+        const aiResponse =
+            await fetch(
+                "/ai-solution",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        issue: issue
+                    })
+                }
+            );
+
+
+        const aiData =
+            await aiResponse.json();
+
+
+        if (!aiResponse.ok) {
+
+            console.error(
+                "AI solution error:",
+                aiData
+            );
+
+
+            solutionText.classList.remove(
+                "solution-loading"
+            );
+
+
+            solutionText.innerText =
+                "⚠️ AI solution could not be generated right now.\n\nPlease try again or use the Human Support option below.";
+
+        }
+
+        else {
+
+            const solution =
+                aiData.ai_solution ||
+                aiData.solution ||
+                "No AI solution was returned.";
+
+
+            solutionText.classList.remove(
+                "solution-loading"
+            );
+
+
+            solutionText.innerText =
+                solution;
+
+        }
+
+
+        /* CLEAR INPUT */
+
+        document.getElementById(
+            "issue"
+        ).value = "";
+
+
+        /* REFRESH */
+
+        await loadTickets();
+
+        await loadAnalytics();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Create ticket error:",
+            error
+        );
+
+
+        alert(
+            error.message ||
+            "Something went wrong while connecting to the backend."
+        );
+
+    }
+
+    finally {
+
+        button.disabled = false;
+
+        button.innerText =
+            "Analyze & Create Ticket";
+
+    }
+
+}
+
+
+/* =========================================================
+   PROBLEM SOLVED
+========================================================= */
+
+async function markSolved() {
+
+
+    if (!currentTicketId) {
+
+        alert(
+            "No active ticket found."
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+
+        /*
+         * IMPORTANT:
+         * Use the backend /solved endpoint.
+         */
+
+        const response =
+            await fetch(
+                `/tickets/${currentTicketId}/solved`,
+                {
+                    method: "POST"
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            alert(
+                data.detail ||
+                "Could not resolve ticket."
+            );
+
+            return;
+
+        }
+
+
+        /* SUCCESS */
+
+        document.getElementById(
+            "successMessage"
+        ).style.display = "block";
+
+
+        document.getElementById(
+            "escalationMessage"
+        ).style.display = "none";
+
+
+        /* DISABLE BUTTONS */
+
+        document.getElementById(
+            "solvedButton"
+        ).disabled = true;
+
+
+        document.getElementById(
+            "escalateButton"
+        ).disabled = true;
+
+
+        /* REFRESH */
+
+        await loadTickets();
+
+        await loadAnalytics();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Resolve error:",
+            error
+        );
+
+
+        alert(
+            "Could not update ticket status."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   HUMAN ESCALATION
+========================================================= */
+
+async function escalateTicket() {
+
+
+    if (!currentTicketId) {
+
+        alert(
+            "No active ticket found."
+        );
+
+        return;
+
+    }
+
+
+    const confirmEscalation =
+        confirm(
+            "The AI troubleshooting steps did not solve the issue. Send this ticket to human IT support?"
+        );
+
+
+    if (!confirmEscalation) {
+
+        return;
+
+    }
+
+
+    try {
+
+
+        /*
+         * IMPORTANT:
+         *
+         * We use /escalate instead of /status.
+         *
+         * This tells the backend:
+         *
+         * human_escalation = true
+         * status = In Progress
+         */
+
+        const response =
+            await fetch(
+                `/tickets/${currentTicketId}/escalate`,
+                {
+                    method: "POST"
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            alert(
+                data.detail ||
+                "Could not escalate ticket."
+            );
+
+            return;
+
+        }
+
+
+        /* ESCALATION MESSAGE */
+
+        document.getElementById(
+            "escalationMessage"
+        ).style.display = "block";
+
+
+        document.getElementById(
+            "successMessage"
+        ).style.display = "none";
+
+
+        /* UPDATE DISPLAY */
+
+        document.getElementById(
+            "escalation"
+        ).innerText = "YES";
+
+
+        document.getElementById(
+            "nextAction"
+        ).innerText =
+            "Escalated to human IT support team";
+
+
+        /* DISABLE ACTIONS */
+
+        document.getElementById(
+            "solvedButton"
+        ).disabled = true;
+
+
+        document.getElementById(
+            "escalateButton"
+        ).disabled = true;
+
+
+        /* REFRESH */
+
+        await loadTickets();
+
+        await loadAnalytics();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Escalation error:",
+            error
+        );
+
+
+        alert(
+            "Could not escalate ticket."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   HTML ESCAPE
+========================================================= */
+
+function escapeHtml(value) {
+
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "";
+
+    }
+
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* =========================================================
+   INITIAL LOAD
+========================================================= */
+
+loadTickets();
+
+loadAnalytics();
+
+
+</script>
+
+
+</body>
+
+</html>

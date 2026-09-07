@@ -1,0 +1,25 @@
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Environment variables / API keys
+.env
+
+# Local database
+*.db
+
+# Backup files
+*backup*
+*corrupt*
+
+# Duplicate files
+*Copy*
+
+# IDE / OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
