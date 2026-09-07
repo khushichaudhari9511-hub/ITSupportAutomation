@@ -1,3 +1,10 @@
+## 🚀 Live Demo
+
+👉 **[Open Live Dashboard](https://itsupportautomation.onrender.com/dashboard)**
+
+> The live prototype demonstrates AI-powered IT ticket classification, priority assignment, troubleshooting recommendations, and human escalation.
+
+
  🤖 IT Support Automation | Agentic AI
 
 An AI-powered IT Support Automation system designed to automate ticket creation, issue classification, prioritization, troubleshooting, escalation, and support analytics.
