@@ -5,7 +5,7 @@
 > The live prototype demonstrates AI-powered IT ticket classification, priority assignment, troubleshooting recommendations, and human escalation.
 
 
- 🤖 IT Support Automation | Agentic AI
+ 🤖  Agentic AI IT Support Automation
 
 An AI-powered IT Support Automation system designed to automate ticket creation, issue classification, prioritization, troubleshooting, escalation, and support analytics.
 
@@ -173,16 +173,31 @@ A support ticket is created and stored in the SQLite database for tracking.
 
 📊 Business Value
 
-The project demonstrates how Agentic AI and workflow automation can support enterprise IT operations by:
+This prototype demonstrates how AI-assisted workflow automation can help IT support teams:
 
-Automating repetitive support activities
-Standardizing issue classification
-Supporting priority-based routing
-Providing AI-assisted troubleshooting
-Enabling human escalation when required
-Improving visibility through analytics
+Reduce repetitive manual activities
+Standardize issue classification
+Improve priority-based routing
+Provide consistent troubleshooting guidance
+Identify issues requiring human intervention
+Improve visibility into support workload
+Create a foundation for enterprise IT support automation
 
 This is a prototype demonstrating the concept and workflow rather than a production enterprise deployment.
+
+⚠️ Prototype Scope
+
+This is a working prototype, not a production enterprise ITSM platform.
+
+The current implementation uses:
+
+Rule-based classification and prioritization
+Google Gemini for AI troubleshooting
+SQLite for ticket storage
+A simplified support workflow
+
+Production implementation would require stronger authentication, role-based access, persistent cloud database infrastructure, audit logging, enterprise integrations, and security controls.
+
 
 🚀 Future Enhancements
 
